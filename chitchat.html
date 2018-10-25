@@ -1,3 +1,13 @@
 {{ define "content" }}
-hello {{ . }}
+hello {{ .UserName }}
+<div class="create">
+        <input type="button" onclick="location.href='/createChat'" value="Create Chat"/>
+</div>
+<div style="background:yello">
+    {{ range .ChatList }}
+    <li>{{ .ChatName }}</li>
+    {{ else }}
+    <li style="background-color:tomato"> why? </li>
+    {{ end }}
+</div>
 {{ end }}

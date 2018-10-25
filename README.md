@@ -50,8 +50,8 @@ use postgresql
         - date 
         - not null
         - **ex)** '2018-10-01'
-    - chat_id
-        - int
+    - chat_hash
+        - varchar[256] 
         - not null
         - primary key
     - chat_name
@@ -106,6 +106,16 @@ In Handler,
 If is valid, Handler check session_id and transfer user to chatlist. 
 
 Else, Handler check session_id. If it exist as string, it means that in past session is interrupted.
+## fucn makeCookie(username string, password string, w http.ResponseWriter) 
+type http.Cookie struct {
+
+    Name: "_cookie",
+
+    Value: sessionID,
+
+    HttpOnly: true,
+
+}
 
 # cookie and session
 user have cookie of session_id as random string.
