@@ -1,0 +1,22 @@
+{{ define "content" }}
+<form method="POST" action="/entrance" enctype="multipart/form-data">
+    <input type="number" name="price" />円<br>
+    <input type="radio" value="true" name="is_with_tax" />税込<br>
+    <input type="radio" value="false" name="is_with_tax" />税抜<br>
+    <input type="submit" />
+</form>
+<table>
+    <tr>
+        <th>税率</th>
+        <th>税金</th>
+        <th>税抜金額</th>
+        <th>税込金額</th>
+    </tr>
+    <tr>
+        <th>{{ .tax }}</th>
+        <th>{{ .tax_price }}</th>
+        <th>{{ .no_tax_price }}</th>
+        <th>{{ .with_tax_price }}</th>
+    </tr>
+</table>
+{{ end }}
