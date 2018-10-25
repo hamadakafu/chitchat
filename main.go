@@ -7,22 +7,55 @@
 package main
 
 import (
-	"net/http"
+    "net/http"
 
-	_ "github.com/lib/pq"
+    _ "github.com/lib/pq"
 )
 
 // func main() {
-//     mux := http.NewServeMux()
+//     certManager := autocert.Manager{
+//         Prompt:     autocert.AcceptTOS, // Let's Encryptの利用規約への同意
+//         HostPolicy: autocert.HostWhitelist("kafu-tech.xyz"), // ドメイン名
+//         Cache:      autocert.DirCache("certs"),            // 証明書などを保存するフォルダ
+//     }
+// 
+//     // http-01 Challenge(ドメインの所有確認)、HTTPSへのリダイレクト用のサーバー
+//     challengeServer := &http.Server{
+//         Handler: certManager.HTTPHandler(nil),
+//         Addr:    "160.16.134.28:80",
+//     }
+// 
+//     go challengeServer.ListenAndServe()
+// 
+//     server := &http.Server{
+//         Addr: ":443",
+//         TLSConfig: &tls.Config{
+//             GetCertificate: certManager.GetCertificate,
+//         },
+//     }
+//     http.HandleFunc("/entrance", entrance)
+//     http.HandleFunc("/home", home)
+//     http.HandleFunc("/createChat", createChat)
+//     http.HandleFunc("/successOfCreateChat", successOfCreateChat)
+// 
+//     if err := server.ListenAndServeTLS("", ""); err != nil {
+//         log.Println(err)
+//     }
+// }
+
+// func main() {
+// 	mux := http.NewServeMux()
 // 	mux.HandleFunc("/entrance", entrance)
 // 	mux.HandleFunc("/home", home)
-//     log.Fatal(http.Serve(autocert.NewListener("www.kafu-tech.xyz"), mux))
+// 	mux.HandleFunc("/createChat", createChat)
+// 	mux.HandleFunc("/successOfCreateChat", successOfCreateChat)
+// 	log.Fatal(http.Serve(autocert.NewListener("www.kafu-tech.xyz"), mux))
 // }
 
 func main() {
 	mux := http.NewServeMux()
 	serve := http.Server{
-		Addr:    "127.0.0.1:8080",
+		Addr:    "160.16.134.28:80",
 		Handler: mux,
 	}
 	mux.HandleFunc("/entrance", entrance)

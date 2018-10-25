@@ -23,7 +23,7 @@ func randString(n int) string {
 
 func makeCookie(username string, password string, w http.ResponseWriter) {
 	db, err := sql.Open("postgres",
-		"user=kafuhamada password=wd dbname=chitchat sslmode=disable")
+		"user=root password=wd dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open postgres!!!", err)
 	}
@@ -41,7 +41,7 @@ func makeCookie(username string, password string, w http.ResponseWriter) {
 }
 func existUser(username string, password string) bool {
 	db, err := sql.Open("postgres",
-		"user=kafuhamada password=wd dbname=chitchat sslmode=disable")
+		"user=root password=wd dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open postgres!!!", err)
 	}
@@ -76,7 +76,7 @@ type User struct {
 
 func sessionCheck(cookie *http.Cookie) (bool, string) {
 	db, err := sql.Open("postgres",
-		"user=kafuhamada password=wd dbname=chitchat sslmode=disable")
+		"user=root password=wd dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open db!!", err)
 		os.Exit(1)
@@ -106,7 +106,7 @@ func sessionCheck(cookie *http.Cookie) (bool, string) {
 func addChatList(user *User, title string) error {
 	date := time.Now().Format("2006-01-02")
 	hash := sha256.Sum256([]byte(title))
-	db, err := sql.Open("postgres", "user=kafuhamada password=wd dbname=chitchat sslmode=disable")
+	db, err := sql.Open("postgres", "user=root password=wd dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open postgres in addChatList!!!", err)
 	}
@@ -144,7 +144,7 @@ func toUserFromRequest(r *http.Request) (user User) {
 	if err != nil {
 		fmt.Println("cookie err!!! in toUserFromRequest", err)
 	}
-	db, err := sql.Open("postgres", "user=kafuhamada password=wd dbname=chitchat sslmode=disable")
+	db, err := sql.Open("postgres", "user=root password=wd dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open postgres in toUserFromRequest!!!", err)
 	}
