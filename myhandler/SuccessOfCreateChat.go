@@ -1,4 +1,4 @@
-package main
+package myhandler
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func successOfCreateChat(w http.ResponseWriter, r *http.Request) {
+func SuccessOfCreateChat(w http.ResponseWriter, r *http.Request) {
 	user := toUserFromRequest(r)
 	err := addChatList(&user, r.FormValue("title"))
 	if err != nil {

@@ -1,4 +1,4 @@
-package main
+package myhandler
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func entrance(w http.ResponseWriter, r *http.Request) {
+func Entrance(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("layout.html", "tax_calculation.html")
 	if err != nil {
 		fmt.Println("wtf")

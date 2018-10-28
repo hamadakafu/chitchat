@@ -39,6 +39,14 @@ when something cause error, handle shows error page.
 # database 
 use postgresql
 ## table
+- chitchatinfo
+    - number_of_user
+        - int
+        - not null
+    - number_of_chat
+        - int
+        - not null
+
 - chatlist
     - create_user_id 
         - int
@@ -57,8 +65,11 @@ use postgresql
     - chat_name
         - varchat[256]
         - not null
+    - number_of_comment
+        - int
+        - not null
 
-- comment
+- comments
     - comment_id
         - int
         - not null
@@ -69,14 +80,14 @@ use postgresql
     - create_user_id
         - int
         - not null
-    - create_user_name
+    - create_user_name
         - varchar[256]
         - not null
     - create_date
         - date
         - not null
-    - chat_id
-        - int
+    - chat_hash
+        - varchar[256] 
         - not null
 - userinfo
     - user_id
