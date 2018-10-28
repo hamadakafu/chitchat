@@ -11,7 +11,7 @@ import (
 // SignUp is Handler that show signup.html
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	if okForm(r, "username") && !existUser(r.FormValue("username")) {
-		registerInfo(r)
+		registerUser(r)
 		t, err := template.ParseFiles("layout.html", "login.html")
 		if err != nil {
 			fmt.Println("template ParseFiles error in SignUp!!!", err)
@@ -55,7 +55,7 @@ func existUser(username string) bool {
 		return false
 	}
 }
-func registerInfo(r *http.Request) {
+func registerUser(r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	numUser := getNumberOfUser()
@@ -70,11 +70,15 @@ func registerInfo(r *http.Request) {
 	}
 	_, err = db.Exec(fmt.Sprintf("insert into userinfo values(%d, '%s', '%s', '%s', 'false', null)", numUser, username, password, date))
 	if err != nil {
-		fmt.Println("cant Exec insert!!!", err)
+		fmt.Println("cant Exec insert registerUser!!!", err)
+	}
+	_, err = db.Exec(fmt.Sprintf("update chitchatinfo set number_of_user = number_of_user + 1"))
+	if err != nil {
+		fmt.Println("cant update in resisterUser!!!")
 	}
 	_, err = db.Exec(fmt.Sprintf("commit"))
 	if err != nil {
-		fmt.Println("cant commit!!!", err)
+		fmt.Println("cant commit in registerUser!!!", err)
 	}
 }
 
