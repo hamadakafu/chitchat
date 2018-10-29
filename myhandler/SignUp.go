@@ -10,7 +10,7 @@ import (
 
 // SignUp is Handler that show signup.html
 func SignUp(w http.ResponseWriter, r *http.Request) {
-	if okForm(r, "username") && !existUser(r.FormValue("username")) {
+	if allOkForm(r, "username", "password") && !existUser(r.FormValue("username")) {
 		registerUser(r)
 		t, err := template.ParseFiles("layout.html", "login.html")
 		if err != nil {
@@ -36,6 +36,15 @@ func okForm(r *http.Request, formName string) bool {
 	} else {
 		return true
 	}
+}
+
+func allOkForm(r *http.Request, formNames ...string) bool {
+	for _, formName := range formNames {
+		if !okForm(r, formName) {
+			return false
+		}
+	}
+	return true
 }
 
 func existUser(username string) bool {
@@ -81,8 +90,6 @@ func registerUser(r *http.Request) {
 		fmt.Println("cant commit in registerUser!!!", err)
 	}
 }
-
-const sqlLoginWord string = "user=chitchatmanager password=wd dbname=chitchat sslmode=disable"
 
 func getNumberOfUser() (num int) {
 	db, err := sql.Open("postgres", sqlLoginWord)

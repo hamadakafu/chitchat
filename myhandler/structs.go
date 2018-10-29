@@ -24,3 +24,7 @@ type User struct {
 	SessionState bool
 	SessionID    string
 }
+
+const rs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+const sqlLoginWord string = "user=chitchatmanager password=wd dbname=chitchat sslmode=disable"

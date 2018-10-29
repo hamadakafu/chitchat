@@ -60,6 +60,7 @@ func main() {
 		mux.HandleFunc("/entrance", myhandler.Entrance)
 		mux.HandleFunc("/home", myhandler.Home)
 		mux.HandleFunc("/signup", myhandler.SignUp)
+		mux.HandleFunc("/logout", myhandler.Logout)
 		// mux.HandleFunc("/createChat", myhandler.CreateChat)
 		// mux.HandleFunc("/successOfCreateChat", myhandler.SuccessOfCreateChat)
 		serve.ListenAndServe()

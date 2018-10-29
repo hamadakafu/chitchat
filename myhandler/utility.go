@@ -11,8 +11,6 @@ import (
 	"time"
 )
 
-const rs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
 func randString(n int) string {
 	b := make([]byte, n)
 	for i := range b {
