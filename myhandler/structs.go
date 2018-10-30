@@ -2,11 +2,12 @@ package myhandler
 
 // ChatInfo is infomation of some chat
 type ChatInfo struct {
-	CreateUserID   int
-	CreateUserName string
-	CreateDate     string
-	ChatHash       string
-	ChatName       string
+	CreateUserID    int
+	CreateUserName  string
+	CreateDate      string
+	ChatHash        string
+	ChatTitle       string
+	NumberOfComment int
 }
 
 // ChatListData is Username and ChatList

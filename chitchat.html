@@ -4,11 +4,14 @@ hello {{ .UserName }}
         <input type="button" onclick="location.href='/createChat'" value="Create Chat"/>
 </div>
 <div style="background:yello">
+    <ul>
     {{ range .ChatList }}
-    <li>{{ .ChatName }}</li>
+
+        <li>{{ .ChatTitle }}</li>
     {{ else }}
     <li style="background-color:tomato"> why? </li>
     {{ end }}
+    </ul>
 </div>
 
 <div class="logout" style="background:thistle">

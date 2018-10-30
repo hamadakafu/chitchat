@@ -26,8 +26,8 @@ func main() {
 	http.HandleFunc("/home", myhandler.Home)
 	http.HandleFunc("/signup", myhandler.SignUp)
 	http.HandleFunc("/logout", myhandler.Logout)
-	//http.HandleFunc("/createChat", myhandler.CreateChat)
-	//http.HandleFunc("/successOfCreateChat", myhandler.successOfCreateChat)
+	http.HandleFunc("/createChat", myhandler.CreateChat)
+	http.HandleFunc("/successOfCreateChat", myhandler.SuccessOfCreateChat)
 	if env == pro {
 		certManager := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,                          // Let's Encryptの利用規約への同意

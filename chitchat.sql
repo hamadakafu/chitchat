@@ -1,5 +1,10 @@
 -- This Sql Have To Be Done -U postgres -d chitchat
 
+drop table chitchatinfo;
+drop table chatlist;
+drop table comments;
+drop table userinfo;
+
 create table chitchatinfo(
     number_of_user integer not null,
     number_of_chat integer not null
@@ -7,7 +12,7 @@ create table chitchatinfo(
 
 create table chatlist(
     create_user_id integer not null,
-    create_user_name integer not null,
+    create_user_name varchar(256) not null,
     create_date date not null,
     chat_hash varchar(256) not null,
     chat_title varchar(256) not null,

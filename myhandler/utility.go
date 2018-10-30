@@ -95,7 +95,7 @@ func addChatList(user *User, title string) error {
 		fmt.Println("cant open postgres in addChatList!!!", err)
 	}
 
-	rows, err := db.Query(fmt.Sprintf("select * from chatlist where chat_name = '%s'", title))
+	rows, err := db.Query(fmt.Sprintf("select * from chatlist where chat_title = '%s'", title))
 	if err != nil {
 		fmt.Println("query is invalid in addChatList!!!", err)
 	}
@@ -108,12 +108,14 @@ func addChatList(user *User, title string) error {
 	if err != nil {
 		fmt.Println("exec is invalid in addChatList!!!", err)
 	}
-	_, err = db.Exec(fmt.Sprintf("insert into chatlist values(%d, '%s', '%s', '%s', '%s')",
-		user.ID,
-		user.Name,
-		date,
-		fmt.Sprintf("%x", hash[:]),
-		title))
+	_, err = db.Exec(
+		fmt.Sprintf("insert into chatlist values(%d, '%s', '%s', '%s', '%s', 0)",
+			user.ID,
+			user.Name,
+			date,
+			fmt.Sprintf("%x", hash[:]),
+			title),
+	)
 	if err != nil {
 		fmt.Println("exec is invalid in addChatList!!!", err)
 	}
@@ -161,13 +163,20 @@ func makeChatListData(username string) ChatListData {
 	}
 	defer rows.Close()
 	chatInfo := ChatInfo{}
-	chatListData := ChatListData{}
+	chatList := []ChatInfo{}
+	chatListData := ChatListData{
+		"",
+		[]ChatInfo{},
+	}
 	for rows.Next() {
-		rows.Scan(&chatInfo.CreateUserID, &chatInfo.CreateUserName, &chatInfo.CreateDate, &chatInfo.ChatHash, &chatInfo.ChatName)
-		chatListData.ChatList = append(chatListData.ChatList, chatInfo)
+		err := rows.Scan(&chatInfo.CreateUserID, &chatInfo.CreateUserName, &chatInfo.CreateDate, &chatInfo.ChatHash, &chatInfo.ChatTitle, &chatInfo.NumberOfComment)
+		if err != nil {
+			fmt.Println("cant scan in makeChatListData!!!", err)
+		}
+		chatList = append(chatList, chatInfo)
 	}
 	chatListData.UserName = username
-	fmt.Println(chatListData)
+	chatListData.ChatList = chatList
 	return chatListData
 }
 
