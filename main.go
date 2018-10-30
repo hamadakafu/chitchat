@@ -3,6 +3,8 @@
 // ユーザごとのtodoListの追加
 // すべてのページでセッションの確認
 // データベースにアクセスするための便利な構造体と関数
+// success of create chatにホームに戻る方法の追加
+// form の文字数制限の追加
 package main
 
 import (
@@ -23,7 +25,7 @@ func main() {
 	env := dev
 
 	http.HandleFunc("/entrance", myhandler.Entrance)
-	http.HandleFunc("/home", myhandler.Home)
+	http.HandleFunc("/", myhandler.Login)
 	http.HandleFunc("/signup", myhandler.SignUp)
 	http.HandleFunc("/logout", myhandler.Logout)
 	http.HandleFunc("/createChat", myhandler.CreateChat)

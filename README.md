@@ -134,3 +134,15 @@ user have cookie of session_id as random string.
 If cookie of session_id user have is same to session_id server have in postgres, user can login automaticaly.
 
 If User don't has Cookie of session_id, there is something wrong, for expample User close browser without doing logout.
+
+# Rendered Data
+Variable name is generally "data".
+
+```Go
+type Data struct {
+    User: User
+    ChatList: []ChatInfo
+    CommentList: []CommentInfo
+    UserError: UserError 
+}
+```

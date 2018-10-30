@@ -152,7 +152,7 @@ func toUserFromRequest(r *http.Request) (user User) {
 	return
 }
 
-func makeChatListData(username string) ChatListData {
+func makeChatListData(username string) Data {
 	db, err := sql.Open("postgres", "user=kafuhamada password=pw dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant oepn postgres!!!", err)
@@ -164,9 +164,10 @@ func makeChatListData(username string) ChatListData {
 	defer rows.Close()
 	chatInfo := ChatInfo{}
 	chatList := []ChatInfo{}
-	chatListData := ChatListData{
+	data := Data{
 		"",
 		[]ChatInfo{},
+		UserError{},
 	}
 	for rows.Next() {
 		err := rows.Scan(&chatInfo.CreateUserID, &chatInfo.CreateUserName, &chatInfo.CreateDate, &chatInfo.ChatHash, &chatInfo.ChatTitle, &chatInfo.NumberOfComment)
@@ -175,9 +176,9 @@ func makeChatListData(username string) ChatListData {
 		}
 		chatList = append(chatList, chatInfo)
 	}
-	chatListData.UserName = username
-	chatListData.ChatList = chatList
-	return chatListData
+	data.UserName = username
+	data.ChatList = chatList
+	return data
 }
 
 func notEmptyForm(r *http.Request, formName string) bool {
