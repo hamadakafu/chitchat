@@ -21,7 +21,7 @@ func main() {
 	dev := "dev"
 	pro := "pro"
 	// 環境設定
-	env := dev
+	env := pro
 	if env == pro {
 		certManager := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,                          // Let's Encryptの利用規約への同意
@@ -45,13 +45,15 @@ func main() {
 		}
 		http.HandleFunc("/entrance", myhandler.Entrance)
 		http.HandleFunc("/home", myhandler.Home)
+		http.HandleFunc("/signup", myhandler.SignUp)
+		http.HandleFunc("/logout", myhandler.Logout)
 		//http.HandleFunc("/createChat", myhandler.CreateChat)
 		//http.HandleFunc("/successOfCreateChat", myhandler.successOfCreateChat)
 
 		if err := server.ListenAndServeTLS("", ""); err != nil {
 			log.Println(err)
 		}
-	} else if env == "dev" {
+	} else if env == dev {
 		mux := http.NewServeMux()
 		serve := http.Server{
 			Addr:    "127.0.0.1:8080",
