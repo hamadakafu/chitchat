@@ -15,7 +15,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("catn parseFiles in GET in Home Handler!!!", err)
 		}
 		data := Data{}
-		makeData(&data, "")
+		makeData(&data, r)
 		t.ExecuteTemplate(w, "layout", data)
 	case "POST":
 		usernameOfForm := r.FormValue("username")

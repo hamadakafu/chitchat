@@ -153,7 +153,7 @@ func toUserFromRequest(r *http.Request) (user UserInfo) {
 }
 
 // should be exist data in DB.
-func makeData(data *Data, username string) {
+func makeData(data *Data, r *http.Request) {
 	db, err := sql.Open("postgres", "user=kafuhamada password=pw dbname=chitchat sslmode=disable")
 	if err != nil {
 		fmt.Println("cant open postgres!!!", err)
@@ -169,7 +169,7 @@ func makeData(data *Data, username string) {
 		commentList CommentList
 		userError   UserError
 	)
-	user.getData(username)
+	user.getData(r)
 	chatList.getData()
 	commentList.getData("")
 	data.User = user
@@ -214,6 +214,7 @@ func existUser(username string) bool {
 		return false
 	}
 }
+
 func registerUser(r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
@@ -257,4 +258,17 @@ func getNumberOfUser() (num int) {
 		fmt.Println("cant read number of users, lists")
 	}
 	return
+}
+
+// endOfSession is Func that delete session_id and change session_state to false
+func endOfSession(r *http.Request) {
+	sessionID, err := r.Cookie("_cookie")
+	db, err := sql.Open("postgres", sqlLoginWord)
+	if err != nil {
+		fmt.Println("cant open postgres in endOfSession!!!", err)
+	}
+	_, err = db.Exec(fmt.Sprintf("update userinfo set session_id = null, session_state = 'false' where session_id = '%s'", sessionID.Value))
+	if err != nil {
+		fmt.Println("cant exec in endOfSession!!!", err)
+	}
 }

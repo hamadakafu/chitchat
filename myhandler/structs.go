@@ -3,6 +3,7 @@ package myhandler
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
 )
 
 // DBData is interface that implement db access
@@ -60,16 +61,17 @@ type UserInfo struct {
 	SessionID    string
 }
 
-func (u *UserInfo) getData(username string) {
-	if username == "" {
-		return
+func (u *UserInfo) getData(r *http.Request) {
+	sessionID, err := r.Cookie("_cookie")
+	if err != nil {
+		fmt.Println("cant get cookie in getData", err)
 	}
 	db, err := sql.Open("postgres", sqlLoginWord)
 	if err != nil {
 		fmt.Println("cant open DB in getUserInfo!!!", err)
 	}
 	rows, err := db.Query(
-		fmt.Sprintf("select * from userinfo where user_name = '%s'", username),
+		fmt.Sprintf("select * from userinfo where session_id = '%s'", sessionID.Value),
 	)
 	if err != nil {
 		fmt.Println("Query is invalid in getUserInfo!!!", err)
@@ -86,11 +88,11 @@ func (u *UserInfo) getData(username string) {
 			&u.SessionID,
 		)
 	} else {
-		fmt.Println("cant scan rows in getUserInfo!!!")
+		fmt.Println("cant scan rows in getData of UserInfo!!!")
 	}
 }
 
-func (cl ChatList) getData() {
+func (cl *ChatList) getData() {
 	db, err := sql.Open("postgres", sqlLoginWord)
 	if err != nil {
 		fmt.Println("catn open DB in getData of chatInfo!!!", err)
@@ -112,11 +114,11 @@ func (cl ChatList) getData() {
 			&chatInfo.ChatTitle,
 			&chatInfo.NumberOfComment,
 		)
-		cl = append(cl, chatInfo)
+		*cl = append(*cl, chatInfo)
 	}
 }
 
-func (cml CommentList) getData(chatTitle string) {
+func (cml *CommentList) getData(chatTitle string) {
 	if chatTitle == "" {
 		return
 	}
@@ -142,7 +144,7 @@ func (cml CommentList) getData(chatTitle string) {
 			&cm.CreateDate,
 			&cm.ChatTitle,
 		)
-		cml = append(cml, cm)
+		*cml = append(*cml, cm)
 	}
 }
 
