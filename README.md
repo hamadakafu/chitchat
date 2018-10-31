@@ -62,7 +62,7 @@ use postgresql
         - varchar[256] 
         - not null
         - primary key
-    - chat_name
+    - chat_title
         - varchat[256]
         - not null
     - number_of_comment
@@ -86,7 +86,7 @@ use postgresql
     - create_date
         - date
         - not null
-    - chat_hash
+    - chat_title
         - varchar[256] 
         - not null
 - userinfo

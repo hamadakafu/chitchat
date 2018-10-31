@@ -5,6 +5,10 @@
     password:<input type="password" name="password"/>
     <input type="submit" value="ログイン"/>
 </form>
+{{ if eq .UserError.ErrorTitle "invalidForm" }}
+<p>{{ .UserError.ErrorMessage }}</p>
+{{ else }}
+{{ end }}
 
 <input type="button" onclick="location.href='/signup'" value="signup"/>
 {{ end }}

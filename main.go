@@ -1,10 +1,9 @@
-// ログアウトボタンによるセッションの終了
-// テンプレートに渡す構造体の作製
 // ユーザごとのtodoListの追加
 // すべてのページでセッションの確認
 // データベースにアクセスするための便利な構造体と関数
 // success of create chatにホームに戻る方法の追加
 // form の文字数制限の追加
+// makeDataのなかでUserInfoを撮ってくる場合，session_idから撮ってくるようにする
 package main
 
 import (
@@ -26,6 +25,7 @@ func main() {
 
 	http.HandleFunc("/entrance", myhandler.Entrance)
 	http.HandleFunc("/", myhandler.Login)
+	http.HandleFunc("/home", myhandler.Home)
 	http.HandleFunc("/signup", myhandler.SignUp)
 	http.HandleFunc("/logout", myhandler.Logout)
 	http.HandleFunc("/createChat", myhandler.CreateChat)

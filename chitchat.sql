@@ -25,7 +25,7 @@ create table comments(
     create_user_id integer not null,
     create_name varchar(256) not null,
     create_date date not null,
-    chat_hash varchar(256) not null,
+    chat_title varchar(256) not null,
     primary key(comment_id)
 );
 

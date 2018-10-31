@@ -71,7 +71,7 @@ func sessionCheck(r *http.Request) (bool, string) {
 	}
 	defer rows.Close()
 
-	user := User{}
+	user := UserInfo{}
 	if rows.Next() {
 		err = rows.Scan(&user.ID, &user.Name, &user.Password,
 			&user.CreateDate, &user.SessionState, &user.SessionID)
@@ -87,7 +87,7 @@ func sessionCheck(r *http.Request) (bool, string) {
 	return false, ""
 }
 
-func addChatList(user *User, title string) error {
+func addChatList(user *UserInfo, title string) error {
 	date := time.Now().Format("2006-01-02")
 	hash := sha256.Sum256([]byte(title))
 	db, err := sql.Open("postgres", "user=chitchatmanager password=wd dbname=chitchat sslmode=disable")
@@ -125,7 +125,7 @@ func addChatList(user *User, title string) error {
 	}
 	return nil
 }
-func toUserFromRequest(r *http.Request) (user User) {
+func toUserFromRequest(r *http.Request) (user UserInfo) {
 	cookie, err := r.Cookie("_cookie")
 	if err != nil {
 		fmt.Println("cookie err!!! in toUserFromRequest", err)
@@ -152,33 +152,30 @@ func toUserFromRequest(r *http.Request) (user User) {
 	return
 }
 
-func makeChatListData(username string) Data {
+// should be exist data in DB.
+func makeData(data *Data, username string) {
 	db, err := sql.Open("postgres", "user=kafuhamada password=pw dbname=chitchat sslmode=disable")
 	if err != nil {
-		fmt.Println("cant oepn postgres!!!", err)
+		fmt.Println("cant open postgres!!!", err)
 	}
 	rows, err := db.Query(fmt.Sprintf("select * from chatlist"))
 	if err != nil {
 		fmt.Println("this Query is invalid!!!", err)
 	}
 	defer rows.Close()
-	chatInfo := ChatInfo{}
-	chatList := []ChatInfo{}
-	data := Data{
-		"",
-		[]ChatInfo{},
-		UserError{},
-	}
-	for rows.Next() {
-		err := rows.Scan(&chatInfo.CreateUserID, &chatInfo.CreateUserName, &chatInfo.CreateDate, &chatInfo.ChatHash, &chatInfo.ChatTitle, &chatInfo.NumberOfComment)
-		if err != nil {
-			fmt.Println("cant scan in makeChatListData!!!", err)
-		}
-		chatList = append(chatList, chatInfo)
-	}
-	data.UserName = username
+	var (
+		user        UserInfo
+		chatList    ChatList
+		commentList CommentList
+		userError   UserError
+	)
+	user.getData(username)
+	chatList.getData()
+	commentList.getData("")
+	data.User = user
 	data.ChatList = chatList
-	return data
+	data.CommentList = commentList
+	data.UserError = userError
 }
 
 func notEmptyForm(r *http.Request, formName string) bool {

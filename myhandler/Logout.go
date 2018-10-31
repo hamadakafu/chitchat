@@ -9,7 +9,7 @@ import (
 // Logout is Handler that remove session_id and redirect "/home"
 func Logout(w http.ResponseWriter, r *http.Request) {
 	endOfSession(r)
-	http.Redirect(w, r, "/home", 303)
+	http.Redirect(w, r, "/", 303)
 }
 
 // endOfSession is Func that delete session_id and change session_state to false
